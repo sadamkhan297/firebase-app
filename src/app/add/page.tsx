@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useFirebase } from "../../../context/firebase";
 import { TextField } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const firebase = useFirebase();
 
   const [title, setTitle] = useState();
@@ -14,6 +16,7 @@ const Page = () => {
   const handleClick = async () => {
     try {
       await firebase.handleCreate(title, body, imageSrc);
+      router.push("/");
     } catch (error: any) {
       console.error("Error:", error.message);
     }

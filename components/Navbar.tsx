@@ -40,19 +40,18 @@ function Navbar() {
       }
     });
   }, [auth, router, users]);
-  console.log(users);
 
   const pages = [
     ...(users
       ? [
           {
+            liItem: "Add Item",
+            lins: "add",
+          },
+          {
             liItem: "",
             lins: "/",
           },
-          // {
-          //   liItem: "add",
-          //   lins: "add",
-          // },
         ]
       : [
           {

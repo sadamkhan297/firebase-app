@@ -2,25 +2,19 @@
 "use client";
 import { createContext, useContext } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-// import { getDatabase, set, ref } from "firebase/database";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseConfig from "../firebaseConfig";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage();
-// const database = getDatabase(app);
-
-// const sanitizeKey = (key: string) => {
-//   return key.replace(/[.@#$[\]]/g, "_");
-// };
 
 const firebaseContext = createContext(null);
 export const useFirebase = () => useContext(firebaseContext);
@@ -55,18 +49,17 @@ export const FirebaseProvider = (props) => {
     }
   };
 
-  // const putData = (key: any, data: any) => {
-  //   const sanitizedKey = sanitizeKey(key);
-  //   return set(ref(database, sanitizedKey), data);
-  // };
-
-  // const storageRef = ref(storage, "some-child");
-  // uploadBytes(storageRef, file).then((snapshot) => {
-  //   console.log("Uploaded a blob or file!");
-  // });
+  const getIsData = () => {
+    return getDocs(collection(db, "books"));
+  };
+  const getImaageUrl = (path) => {
+    return getDownloadURL(ref(storage, path));
+  };
 
   return (
-    <firebaseContext.Provider value={{ signUpUser, signInUser, handleCreate }}>
+    <firebaseContext.Provider
+      value={{ signUpUser, signInUser, handleCreate, getIsData, getImaageUrl }}
+    >
       {props.children}
     </firebaseContext.Provider>
   );
