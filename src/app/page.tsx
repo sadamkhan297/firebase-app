@@ -51,7 +51,7 @@ const HomePage = () => {
           ""
         )}
       </div>
-      <Box sx={{ width: "90%", mx: "auto", my: 2 }}>
+      {/* <Box sx={{ width: "90%", mx: "auto", my: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Card sx={{ maxWidth: 345 }}>
@@ -76,7 +76,7 @@ const HomePage = () => {
             </Card>
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </>
   );
 };
