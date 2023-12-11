@@ -33,7 +33,7 @@ function Navbar() {
     onAuthStateChanged(auth, (user: any) => {
       if (user) {
         setUsers(user);
-        // router.push("/");
+        router.push("/");
       } else {
         setUsers(null);
         router.push("/login");
@@ -49,10 +49,10 @@ function Navbar() {
             liItem: "",
             lins: "/",
           },
-          {
-            liItem: "add",
-            lins: "add",
-          },
+          // {
+          //   liItem: "add",
+          //   lins: "add",
+          // },
         ]
       : [
           {
