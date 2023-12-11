@@ -1,6 +1,6 @@
 //@ts-nocheck
 "use client";
-import { CardMedia } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
 import React, { useState } from "react";
 import { useFirebase } from "../context/firebase";
 
@@ -16,9 +16,9 @@ const UploadImage = ({ urls }: any) => {
   }, [firebase, urls.imageSrc]);
 
   return (
-    <div>
+    <Box>
       <CardMedia sx={{ height: 140 }} image={imgUrl} title="green iguana" />
-    </div>
+    </Box>
   );
 };
 
