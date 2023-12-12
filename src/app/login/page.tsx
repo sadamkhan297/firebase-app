@@ -54,6 +54,13 @@ const Page = () => {
       >
         Login
       </button>
+      <br />
+      <button
+        style={{ padding: "10px", fontWeight: 700, color: "green" }}
+        onClick={() => firebase.signInGoodle()}
+      >
+        Login By Google
+      </button>
     </div>
   );
 };

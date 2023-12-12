@@ -7,6 +7,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseConfig from "../firebaseConfig";
@@ -15,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage();
+const provider = new GoogleAuthProvider();
 
 const firebaseContext = createContext(null);
 export const useFirebase = () => useContext(firebaseContext);
@@ -55,10 +58,20 @@ export const FirebaseProvider = (props) => {
   const getImaageUrl = (path) => {
     return getDownloadURL(ref(storage, path));
   };
+  const signInGoodle = () => {
+    return signInWithPopup(auth, provider);
+  };
 
   return (
     <firebaseContext.Provider
-      value={{ signUpUser, signInUser, handleCreate, getIsData, getImaageUrl }}
+      value={{
+        signUpUser,
+        signInUser,
+        handleCreate,
+        getIsData,
+        getImaageUrl,
+        signInGoodle,
+      }}
     >
       {props.children}
     </firebaseContext.Provider>
