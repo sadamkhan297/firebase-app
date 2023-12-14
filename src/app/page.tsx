@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useFirebase } from "../../context/firebase";
 import UploadImage from "../../components/UploadImage";
@@ -23,7 +23,6 @@ const HomePage = () => {
 
   React.useEffect(() => {
     firebase.getIsData().then((data) => setGetData(data.docs, "data"));
-    // firebase.getImaageUrl().then((url) => setGetData(data.docs, "data"));
     onAuthStateChanged(auth, (user: any) => {
       if (user) {
         setUsers(user);
@@ -33,38 +32,10 @@ const HomePage = () => {
     });
   }, [auth, firebase, users]);
 
+  console.log(users, "users");
+
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <h1>Home</h1>
-      </div>
-      <Box
-        sx={{
-          width: "90%",
-          m: "auto",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h2 style={{ margin: "15px" }}>Email: {users?.email || "___"}</h2>
-        {users ? (
-          <Button
-            variant="contained"
-            style={{ fontWeight: 700, borderRadius: "20px" }}
-            onClick={() => signOut(auth)}
-          >
-            Logout
-          </Button>
-        ) : (
-          ""
-        )}
-      </Box>
       <Box sx={{ width: "90%", mx: "auto", my: 2 }}>
         <Grid container spacing={2}>
           {getData?.map((val) => {

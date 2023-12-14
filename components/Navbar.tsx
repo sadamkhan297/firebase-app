@@ -14,10 +14,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Navbar() {
   const [users, setUsers] = React.useState(null);
@@ -197,11 +195,16 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={() => router.push("/profile")}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  signOut(auth), setAnchorElUser(null);
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
