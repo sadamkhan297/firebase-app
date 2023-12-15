@@ -9,13 +9,12 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import React from "react";
 import { useFirebase } from "../../context/firebase";
 import UploadImage from "../../components/UploadImage";
 
 const HomePage = () => {
-  const [users, setUsers] = React.useState(null);
   const [getData, setGetData] = React.useState(null);
 
   const auth = getAuth();
@@ -23,16 +22,7 @@ const HomePage = () => {
 
   React.useEffect(() => {
     firebase.getIsData().then((data) => setGetData(data.docs, "data"));
-    onAuthStateChanged(auth, (user: any) => {
-      if (user) {
-        setUsers(user);
-      } else {
-        setUsers(null);
-      }
-    });
-  }, [auth, firebase, users]);
-
-  console.log(users, "users");
+  }, [auth, firebase]);
 
   return (
     <>

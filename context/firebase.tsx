@@ -31,24 +31,20 @@ export const FirebaseProvider = (props) => {
   };
 
   const handleCreate = async (title, body, imageSrc) => {
-    if (imageSrc && imageSrc instanceof File) {
-      try {
-        const imageRef = ref(
-          storage,
-          `uploads/images/${Date.now()}-${imageSrc.name}`
-        );
-        const snapshot = await uploadBytes(imageRef, imageSrc);
-        const imagePath = snapshot.ref.fullPath;
-        await addDoc(collection(db, "books"), {
-          title,
-          body,
-          imageSrc: imagePath,
-        });
-      } catch (error) {
-        console.error("Error uploading image:", error.message);
-      }
-    } else {
-      console.error("No image provided for upload");
+    try {
+      const imageRef = ref(
+        storage,
+        `uploads/images/${Date.now()}-${imageSrc.name}`
+      );
+      const snapshot = await uploadBytes(imageRef, imageSrc);
+      const imagePath = snapshot.ref.fullPath;
+      await addDoc(collection(db, "books"), {
+        title,
+        body,
+        imageSrc: imagePath,
+      });
+    } catch (error) {
+      console.error("Error uploading image:", error.message);
     }
   };
 

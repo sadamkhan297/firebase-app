@@ -37,7 +37,7 @@ const Page = () => {
             display: "flex",
           }}
         >
-          <TextField type="name" value={users?.displayName} disabled />
+          <TextField type="name" value={users?.email.split("@")[0]} disabled />
           <TextField type="email" value={users?.email} disabled />
         </div>
       </div>
