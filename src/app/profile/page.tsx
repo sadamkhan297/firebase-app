@@ -1,24 +1,26 @@
 // @ts-nocheck
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFirebase } from "../../../context/firebase";
-import { TextField } from "@mui/material";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Avatar, TextField } from "@mui/material";
 
 const Page = () => {
   const firebase = useFirebase();
-  const [users, setUsers] = useState(null);
-  const auth = getAuth();
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user: any) => {
-      if (user) {
-        setUsers(user);
-      } else {
-        setUsers(null);
-      }
-    });
-  }, [auth, firebase, users]);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        setSelectedImage(event.target.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <>
@@ -32,13 +34,30 @@ const Page = () => {
       >
         <h1>Your Profile</h1>
         <br />
+        <label htmlFor="photo-upload" className="custom-file-upload fas">
+          <div className="img-wrap img-upload">
+            <Avatar
+              alt="saim khan"
+              src={selectedImage || firebase.user?.photoURL || ""}
+              sx={{ width: 100, height: 100 }}
+            />
+          </div>
+          <input
+            id="photo-upload"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+        </label>
+        <br />
+
         <div
           style={{
             display: "flex",
           }}
         >
-          <TextField type="name" value={users?.email.split("@")[0]} disabled />
-          <TextField type="email" value={users?.email} disabled />
+          <TextField type="name" value={firebase.user?.displayName} disabled />
+          <TextField type="email" value={firebase.user?.email} disabled />
         </div>
       </div>
     </>

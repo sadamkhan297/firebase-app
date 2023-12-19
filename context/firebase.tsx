@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 import {
@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import firebaseConfig from "../firebaseConfig";
@@ -23,9 +24,24 @@ const firebaseContext = createContext(null);
 export const useFirebase = () => useContext(firebaseContext);
 
 export const FirebaseProvider = (props) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user: any) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
+  console.log(user);
+
   const signUpUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
   const signInUser = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -58,6 +74,17 @@ export const FirebaseProvider = (props) => {
     return signInWithPopup(auth, provider);
   };
 
+  const sendmsg = async (message) => {
+    try {
+      await addDoc(collection(db, "contects"), {
+        email: user.email,
+        message,
+      });
+    } catch (error) {
+      console.log("user not added", error.message);
+    }
+  };
+
   return (
     <firebaseContext.Provider
       value={{
@@ -67,6 +94,9 @@ export const FirebaseProvider = (props) => {
         getIsData,
         getImaageUrl,
         signInGoodle,
+        sendmsg,
+        user,
+        userList,
       }}
     >
       {props.children}

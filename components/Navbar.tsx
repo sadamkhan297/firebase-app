@@ -16,8 +16,11 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { useFirebase } from "../context/firebase";
 
 function Navbar() {
+  const firebase = useFirebase() as any;
+
   const [users, setUsers] = React.useState(null);
   const auth = getAuth();
   const router = useRouter();
@@ -45,6 +48,10 @@ function Navbar() {
           {
             liItem: "Add Item",
             lins: "add",
+          },
+          {
+            liItem: "Contect Us",
+            lins: "contect",
           },
           {
             liItem: "",
@@ -173,7 +180,7 @@ function Navbar() {
             {users ? (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Saim Khan" src={firebase.user?.photoURL || ""} />
                 </IconButton>
               </Tooltip>
             ) : (
