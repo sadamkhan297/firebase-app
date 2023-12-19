@@ -41,7 +41,6 @@ export const FirebaseProvider = (props) => {
   const signUpUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
-
   const signInUser = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -96,7 +95,6 @@ export const FirebaseProvider = (props) => {
         signInGoodle,
         sendmsg,
         user,
-        userList,
       }}
     >
       {props.children}
